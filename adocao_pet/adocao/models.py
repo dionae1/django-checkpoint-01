@@ -51,6 +51,21 @@ class Pet(models.Model):
         return self.nome
 
 
+class FotoPet(models.Model):
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="fotos")
+    imagem = models.ImageField(upload_to="pets/")
+    data_upload = models.DateTimeField(auto_now_add=True)
+    descricao = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        ordering = ["-data_upload"]
+        verbose_name = "Foto do Pet"
+        verbose_name_plural = "Fotos dos Pets"
+
+    def __str__(self) -> str:
+        return f"Foto de {self.pet.nome}"
+
+
 class PedidoAdocao(models.Model):
     ESCOLHAS_STATUS = [
         ("pendente", "Pendente"),

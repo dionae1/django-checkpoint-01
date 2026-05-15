@@ -118,3 +118,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 AUTH_USER_MODEL = "adocao.User"
+
+
+# Fotos dos pets
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"

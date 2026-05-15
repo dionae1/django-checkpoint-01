@@ -1,11 +1,18 @@
 from django.contrib import admin
 
-from .models import User, Pet, PedidoAdocao
+from .models import User, Pet, PedidoAdocao, FotoPet
 
 
 class AdoptionRequestInline(admin.TabularInline):
     model = PedidoAdocao
     extra = 0
+
+
+class FotoPetInline(admin.TabularInline):
+    model = FotoPet
+    extra = 1
+    fields = ("imagem", "descricao", "data_upload")
+    readonly_fields = ("data_upload",)
 
 
 @admin.register(User)
@@ -22,7 +29,15 @@ class PetAdmin(admin.ModelAdmin):
     search_fields = ("nome", "especie", "raca", "dono__username")
     list_filter = ("status", "porte")
     ordering = ("nome",)
-    inlines = [AdoptionRequestInline]
+    inlines = [FotoPetInline, AdoptionRequestInline]
+    fieldsets = (
+        (
+            "Informações Básicas",
+            {"fields": ("nome", "especie", "raca", "idade", "porte", "descricao")},
+        ),
+        ("Saúde", {"fields": ("vacinado", "castrado")}),
+        ("Adoção", {"fields": ("dono", "status")}),
+    )
 
 
 @admin.register(PedidoAdocao)
