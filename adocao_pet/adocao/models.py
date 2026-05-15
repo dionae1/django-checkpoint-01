@@ -1,3 +1,82 @@
 from django.db import models
+from django.conf import settings
+from django.core.exceptions import ValidationError
 
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    celular = models.CharField(max_length=20, blank=True)
+    cidade = models.CharField(max_length=100, blank=True)
+    estado = models.CharField(max_length=100, blank=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
+    def __str__(self) -> str:
+        return self.username
+
+
+class Pet(models.Model):
+    ESCOLHAS_STATUS = [
+        ("disponível", "Disponível"),
+        ("adotado", "Adotado"),
+    ]
+
+    ESCOLHAS_PORTE = [
+        ("pequeno", "Pequeno"),
+        ("médio", "Médio"),
+        ("grande", "Grande"),
+    ]
+
+    dono = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pets"
+    )
+
+    nome = models.CharField(max_length=100)
+    especie = models.CharField(max_length=100)
+    raca = models.CharField(max_length=100)
+    idade = models.PositiveIntegerField()
+    porte = models.CharField(max_length=20, choices=ESCOLHAS_PORTE)
+    descricao = models.TextField(blank=True)
+    vacinado = models.BooleanField(default=False)
+    castrado = models.BooleanField(default=False)
+
+    status = models.CharField(
+        max_length=20, choices=ESCOLHAS_STATUS, default="disponível"
+    )
+
+    def __str__(self) -> str:
+        return self.nome
+
+
+class PedidoAdocao(models.Model):
+    ESCOLHAS_STATUS = [
+        ("pendente", "Pendente"),
+        ("aprovado", "Aprovado"),
+        ("rejeitado", "Rejeitado"),
+    ]
+
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="pedidos")
+    adotante = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="pedidos"
+    )
+
+    status = models.CharField(
+        max_length=20, choices=ESCOLHAS_STATUS, default="pendente"
+    )
+
+    def clean(self) -> None:
+        if self.pet.dono == self.adotante:
+            raise ValidationError("O adotante não pode ser o dono do pet.")
+
+        if self.pet.status != "disponível":
+            raise ValidationError("O pet não está disponível para adoção.")
+
+    def __str__(self) -> str:
+        return f"Pedido de adoção: {self.pet.nome} por {self.adotante.username}"
+
+    class Meta:
+        unique_together = ("pet", "adotante")
