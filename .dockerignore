@@ -1,0 +1,7 @@
+.git
+.venv
+__pycache__/
+*.pyc
+.env
+adocao_pet/db.sqlite3
+adocao_pet/media/

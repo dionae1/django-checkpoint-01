@@ -32,7 +32,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Aplicar migrações e criar superusuário
+3. Entrar no diretório do Django
+
+```bash
+cd adocao_pet
+```
+
+4. Aplicar migrações e criar superusuário
 
 ```bash
 python manage.py makemigrations
@@ -40,10 +46,31 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-4. Rodar o servidor de desenvolvimento
+5. Rodar o servidor de desenvolvimento
 
 ```bash
 python manage.py runserver
+```
+
+Rodando com Docker
+------------------
+
+1. Subir o backend e o banco PostgreSQL
+
+```bash
+docker compose up --build
+```
+
+2. Criar o superusuário no container
+
+```bash
+docker compose exec web python manage.py createsuperuser
+```
+
+3. Abrir o admin em
+
+```text
+http://localhost:8000/admin/
 ```
 
 Observações

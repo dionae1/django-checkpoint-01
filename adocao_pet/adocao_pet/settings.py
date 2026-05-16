@@ -10,22 +10,31 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def env_bool(name: str, default: bool = False) -> bool:
+    return os.getenv(name, str(default)).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def env_list(name: str, default: str) -> list[str]:
+    return [value.strip() for value in os.getenv(name, default).split(",") if value.strip()]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%ezy)bh+(asudeqak4vq4acx8_p7jxe&-afv(ns)deua-$m#8j"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-%ezy)bh+(asudeqak4vq4acx8_p7jxe&-afv(ns)deua-$m#8j")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool("DJANGO_DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0")
 
 
 # Application definition
@@ -44,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -74,12 +84,24 @@ WSGI_APPLICATION = "adocao_pet.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+db_engine = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
+if db_engine == "django.db.backends.postgresql":
+    default_database: dict[str, object] = {
+        "ENGINE": db_engine,
+        "NAME": os.getenv("DB_NAME", "adocao_pet"),
+        "USER": os.getenv("DB_USER", "postgres"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "postgres"),
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "5432"),
+        "CONN_MAX_AGE": int(os.getenv("DB_CONN_MAX_AGE", "60")),
     }
-}
+else:
+    default_database = {
+        "ENGINE": db_engine,
+        "NAME": os.getenv("DB_NAME", str(BASE_DIR)),
+    }
+
+DATABASES: dict[str, dict[str, object]] = {"default": default_database}
 
 
 # Password validation
@@ -104,9 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = os.getenv("DJANGO_LANGUAGE_CODE", "pt-br")
 
-TIME_ZONE = "UTC"
+TIME_ZONE = os.getenv("DJANGO_TIME_ZONE", "America/Sao_Paulo")
 
 USE_I18N = True
 
@@ -116,13 +138,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 AUTH_USER_MODEL = "adocao.User"
 
 
 # Fotos dos pets
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
@@ -131,4 +154,34 @@ JAZZMIN_SETTINGS = {
     "site_header": "Adocao Pet",
     "site_brand": "Painel de Gestao",
     "welcome_sign": "Bem-vindo ao painel de adocao",
+    "copyright": "Adocao Pet",
+    "search_model": ["adocao.User", "adocao.Pet", "adocao.PedidoAdocao"],
+    "topmenu_links": [
+        {"name": "Dashboard", "url": "/admin/"},
+        {"name": "Pets", "url": "/admin/adocao/pet/"},
+        {"name": "Pedidos", "url": "/admin/adocao/pedidoadocao/"},
+    ],
+    "usermenu_links": [
+        {"name": "Django Docs", "url": "https://docs.djangoproject.com/en/6.0/", "new_window": True},
+        {"name": "Jazzmin", "url": "https://github.com/farridav/django-jazzmin", "new_window": True},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "related_modal_active": True,
+    "language_chooser": True,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "adocao.pet": "vertical_tabs",
+        "adocao.pedidoadocao": "collapsible",
+    },
+}
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "default_theme_mode": "auto",
+    "navbar": "navbar-white navbar-light",
+    "sidebar": "sidebar-dark-primary",
+    "accent": "accent-success",
+    "sidebar_nav_child_indent": True,
 }
