@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -123,3 +124,11 @@ AUTH_USER_MODEL = "adocao.User"
 # Fotos dos pets
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Adocao Pet Admin",
+    "site_header": "Adocao Pet",
+    "site_brand": "Painel de Gestao",
+    "welcome_sign": "Bem-vindo ao painel de adocao",
+}
