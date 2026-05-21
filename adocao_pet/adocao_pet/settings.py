@@ -86,7 +86,7 @@ WSGI_APPLICATION = "adocao_pet.wsgi.application"
 
 db_engine = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
 if db_engine == "django.db.backends.postgresql":
-    default_database: dict[str, object] = {
+    default_database = {
         "ENGINE": db_engine,
         "NAME": os.getenv("DB_NAME", "adocao_pet"),
         "USER": os.getenv("DB_USER", "postgres"),
@@ -97,8 +97,8 @@ if db_engine == "django.db.backends.postgresql":
     }
 else:
     default_database = {
-        "ENGINE": db_engine,
-        "NAME": os.getenv("DB_NAME", str(BASE_DIR)),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / os.getenv("DB_NAME", "db.sqlite3"),
     }
 
 DATABASES: dict[str, dict[str, object]] = {"default": default_database}
