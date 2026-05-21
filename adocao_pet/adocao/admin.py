@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import User, Pet, PedidoAdocao, FotoPet
 
@@ -11,8 +12,25 @@ class AdoptionRequestInline(admin.TabularInline):
 class FotoPetInline(admin.TabularInline):
     model = FotoPet
     extra = 1
-    fields = ("imagem", "descricao", "data_upload")
-    readonly_fields = ("data_upload",)
+    fields = ("preview_imagem", "imagem", "descricao", "data_upload")
+    readonly_fields = ("preview_imagem", "data_upload")
+
+    def preview_imagem(self, obj):
+        if not obj or not getattr(obj, "imagem", None):
+            return "Sem imagem"
+
+        if not obj.imagem:
+            return "Sem imagem"
+
+        return format_html(
+            '<a href="{}" target="_blank">'
+            '<img src="{}" style="max-height: 90px; max-width: 90px; object-fit: cover; border-radius: 6px;" />'
+            '</a>',
+            obj.imagem.url,
+            obj.imagem.url,
+        )
+
+    preview_imagem.short_description = "Preview"
 
 
 @admin.register(User)
