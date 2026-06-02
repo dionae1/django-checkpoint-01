@@ -1,0 +1,37 @@
+{% load static %}
+
+<script src="{% static 'shop/js/nav.js' %}"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}"> Adote um Pet </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav d-flex align-items-center justify-content-center gap-3 flex-grow-1 me-lg-3">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}" onclick="setActive(this)">Inicio</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="d-flex align-items-center gap-2 flex-wrap mt-3 mt-lg-0">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">Sair</button>
+                </form>
+                {% else %}
+                <a class="btn btn-outline-dark btn-sm" href="{% url 'login' %}">Entrar</a>
+                <a class="btn btn-dark btn-sm" href="{% url 'register' %}">Cadastrar</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</nav>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from syslog import LOG_INFO
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -199,3 +200,5 @@ JAZZMIN_UI_TWEAKS = {
     "accent": "accent-success",
     "sidebar_nav_child_indent": True,
 }
+
+LOGIN_REDIRECT_URL = "/"
