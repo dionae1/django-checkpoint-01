@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import User, Pet, PedidoAdocao, FotoPet
+from .models import FotoPet, PedidoAdocao, Pet, User
 
 
 class AdoptionRequestInline(admin.TabularInline):
@@ -25,7 +25,7 @@ class FotoPetInline(admin.TabularInline):
         return format_html(
             '<a href="{}" target="_blank">'
             '<img src="{}" style="max-height: 90px; max-width: 90px; object-fit: cover; border-radius: 6px;" />'
-            '</a>',
+            "</a>",
             obj.imagem.url,
             obj.imagem.url,
         )
@@ -35,8 +35,8 @@ class FotoPetInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "celular", "cidade", "estado")
-    search_fields = ("username", "email", "celular", "cidade", "estado")
+    list_display = ("email", "first_name", "last_name", "celular", "cidade", "estado")
+    search_fields = ("username", "email", "celular", "cidade", "estado", "first_name", "last_name")
     list_filter = ("cidade", "estado")
     ordering = ("id",)
 

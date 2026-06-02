@@ -22,14 +22,19 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 
 def env_list(name: str, default: str) -> list[str]:
-    return [value.strip() for value in os.getenv(name, default).split(",") if value.strip()]
+    return [
+        value.strip() for value in os.getenv(name, default).split(",") if value.strip()
+    ]
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-%ezy)bh+(asudeqak4vq4acx8_p7jxe&-afv(ns)deua-$m#8j")
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-%ezy)bh+(asudeqak4vq4acx8_p7jxe&-afv(ns)deua-$m#8j",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env_bool("DJANGO_DEBUG", True)
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "adocao",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -162,8 +168,16 @@ JAZZMIN_SETTINGS = {
         {"name": "Pedidos", "url": "/admin/adocao/pedidoadocao/"},
     ],
     "usermenu_links": [
-        {"name": "Django Docs", "url": "https://docs.djangoproject.com/en/6.0/", "new_window": True},
-        {"name": "Jazzmin", "url": "https://github.com/farridav/django-jazzmin", "new_window": True},
+        {
+            "name": "Django Docs",
+            "url": "https://docs.djangoproject.com/en/6.0/",
+            "new_window": True,
+        },
+        {
+            "name": "Jazzmin",
+            "url": "https://github.com/farridav/django-jazzmin",
+            "new_window": True,
+        },
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
