@@ -202,3 +202,4 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/login"

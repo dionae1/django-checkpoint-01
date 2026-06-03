@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pets</title>
+
+
+    {% load static %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    {% include 'nav.html' %}
+
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="{% url 'novo_pet' %}" class="btn btn-primary">Adicionar Novo Pet</a>
+
+            {% if pets %}
+            <div>
+                <input type="search" id="pet-search-input" class="form-control" placeholder="Procure por um pet..."
+                    autocomplete="off">
+            </div>
+
+
+            {% endif %}
+        </div>
+
+        {% if pets %}
+        <p id="pet-search-empty" class="text-muted d-none mb-3 text-center">Nenhum pet encontrado para essa pesquisa.</p>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for pet in pets %}
+            <div class="col" data-pet-name="{{ pet.nome|lower }}">
+                <div class="card h-100 shadow-sm">
+                    {% if pet.foto_principal %}
+                    <img src="{{ pet.foto_principal.imagem.url }}" class="card-img-top" alt="{{ pet.nome }}"
+                        style="height: 400px; object-fit: cover;">
+                    {% else %}
+                    <p>Nenhuma imagem disponível</p>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pet.nome }}</h5>
+                        <p class="card-text">
+                            <strong>Espécie:</strong> {{ pet.especie }}<br>
+                            <strong>Raça:</strong> {{ pet.raca }}<br>
+                            <strong>Idade:</strong> {{ pet.idade }} anos<br>
+                            <strong>Porte:</strong> {{ pet.porte }}<br>
+                            <strong>Descrição:</strong> {{ pet.descricao }}<br>
+                            <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
+                            <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">Você ainda não cadastrou nenhum pet para adoção.</p>
+        {% endif %}
+    </div>
+
+    <script src="{% static 'adocao/js/pets-search.js' %}"></script>
+</body>
