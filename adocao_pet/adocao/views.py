@@ -5,7 +5,7 @@ from django.template import loader
 from django.shortcuts import redirect
 
 from .models import Pet, FotoPet
-from .forms import PetForm, DetalhesPetForm
+from .forms import FormularioCadastroPet, FormularioDetalhesPet
 
 
 @login_required
@@ -42,7 +42,7 @@ def lista_pets(request):
 def novo_pet(request):
 
     if request.method == "POST":
-        form = PetForm(request.POST, request.FILES)
+        form = FormularioCadastroPet(request.POST, request.FILES)
         files = request.FILES.getlist("fotos")
         if form.is_valid():
             pet = Pet(
@@ -62,7 +62,7 @@ def novo_pet(request):
                 FotoPet.objects.create(pet=pet, imagem=file)
             return redirect("lista_pets")
     else:
-        form = PetForm()
+        form = FormularioCadastroPet()
 
     return render(request, "novo_pet.html", {"form": form})
 
@@ -70,7 +70,7 @@ def novo_pet(request):
 @login_required
 def detalhes_pet(request, pet_id):
     if request.method == "POST":
-        form = DetalhesPetForm(request.POST)
+        form = FormularioDetalhesPet(request.POST)
         files = request.FILES.getlist("fotos")
 
         if form.is_valid():
@@ -92,7 +92,7 @@ def detalhes_pet(request, pet_id):
 
     pet = Pet.objects.get(id=pet_id, dono=request.user)
     fotos = pet.fotos.all()  # type: ignore
-    form = DetalhesPetForm(
+    form = FormularioDetalhesPet(
         initial={
             "nome": pet.nome,
             "especie": pet.especie,

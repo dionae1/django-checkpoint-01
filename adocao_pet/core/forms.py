@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
-class EmailAuthenticationForm(AuthenticationForm):
+class FormularioAutenticacao(AuthenticationForm):
     username = forms.EmailField(
         label="Email",
         widget=forms.EmailInput(
@@ -20,7 +20,7 @@ class EmailAuthenticationForm(AuthenticationForm):
     )
 
 
-class CustomUserCreationForm(UserCreationForm):
+class FormularioCadastro(UserCreationForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "celular", "cidade", "estado")
@@ -46,7 +46,7 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
 
-class UserUpdateForm(forms.ModelForm):
+class FormularioAtualizacao(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "celular", "cidade", "estado")

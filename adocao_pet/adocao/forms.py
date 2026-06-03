@@ -25,7 +25,7 @@ class MultipleImageField(forms.FileField):
         return result
 
 
-class PetForm(forms.Form):
+class FormularioCadastroPet(forms.Form):
     nome = forms.CharField(
         max_length=100,
         widget=forms.TextInput(
@@ -73,7 +73,7 @@ class PetForm(forms.Form):
     fotos = MultipleImageField(required=False)
 
 
-class DetalhesPetForm(forms.Form):
+class FormularioDetalhesPet(forms.Form):
     nome = forms.CharField(
         max_length=100, widget=forms.TextInput(attrs={"class": "form-control"})
     )
