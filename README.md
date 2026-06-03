@@ -46,7 +46,13 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-5. Rodar o servidor de desenvolvimento
+5. (Opcional) Popular o banco de dados com exemplares
+
+```bash
+python manage.py seed
+```
+
+6. Rodar o servidor de desenvolvimento
 
 ```bash
 python manage.py runserver
