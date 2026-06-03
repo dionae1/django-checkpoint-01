@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from .utils import formatar_celular_brasileiro
+
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -22,6 +24,10 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
+
+    @property
+    def celular_formatado(self) -> str:
+        return formatar_celular_brasileiro(self.celular)
 
 
 class Pet(models.Model):

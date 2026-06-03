@@ -35,10 +35,21 @@ class FotoPetInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("email", "first_name", "last_name", "celular", "cidade", "estado")
+    list_display = (
+        "email",
+        "first_name",
+        "last_name",
+        "celular_formatado_admin",
+        "cidade",
+        "estado",
+    )
     search_fields = ("username", "email", "celular", "cidade", "estado", "first_name", "last_name")
     list_filter = ("cidade", "estado")
     ordering = ("id",)
+
+    @admin.display(description="Celular", ordering="celular")
+    def celular_formatado_admin(self, obj):
+        return obj.celular_formatado
 
 
 @admin.register(Pet)
