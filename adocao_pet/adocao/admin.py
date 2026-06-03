@@ -44,7 +44,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
     list_display = ("nome", "especie", "raca", "idade", "porte", "status", "dono")
-    search_fields = ("nome", "especie", "raca", "dono__username")
+    search_fields = ("nome", "especie", "raca", "dono__first_name", "dono__last_name")
     list_filter = ("status", "porte")
     ordering = ("nome",)
     inlines = [FotoPetInline, AdoptionRequestInline]
@@ -61,7 +61,7 @@ class PetAdmin(admin.ModelAdmin):
 @admin.register(PedidoAdocao)
 class PedidoAdocaoAdmin(admin.ModelAdmin):
     list_display = ("data_pedido", "pet", "adotante", "status")
-    search_fields = ("pet__nome", "adotante__username")
+    search_fields = ("pet__nome", "adotante__first_name", "adotante__last_name")
     list_filter = ("status",)
     ordering = ("-data_pedido",)
     autocomplete_fields = ("pet", "adotante")
