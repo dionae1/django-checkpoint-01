@@ -20,11 +20,108 @@
 
     {% include 'nav.html' %}
 
-    <div class="container mt-4">
-        <h1 class="mb-4">Cadastrar Pet</h1>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <div class="container py-5" style="max-width: 960px;">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+                <div class="mb-4">
+                    <h1 class="h3 mb-2">Cadastrar Pet</h1>
+                    <p class="text-muted mb-0">Preencha os dados abaixo para anunciar um novo pet.</p>
+                </div>
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="id_nome" class="form-label">Nome</label>
+                            {{ form.nome }}
+                            {% if form.nome.errors %}
+                            <div class="text-danger small">{{ form.nome.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="id_especie" class="form-label">Espécie</label>
+                            {{ form.especie }}
+                            {% if form.especie.errors %}
+                            <div class="text-danger small">{{ form.especie.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="id_raca" class="form-label">Raça</label>
+                            {{ form.raca }}
+                            {% if form.raca.errors %}
+                            <div class="text-danger small">{{ form.raca.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="id_idade" class="form-label">Idade</label>
+                            {{ form.idade }}
+                            {% if form.idade.errors %}
+                            <div class="text-danger small">{{ form.idade.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="id_porte" class="form-label">Porte</label>
+                            {{ form.porte }}
+                            {% if form.porte.errors %}
+                            <div class="text-danger small">{{ form.porte.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="id_descricao" class="form-label">Descrição</label>
+                            {{ form.descricao }}
+                            {% if form.descricao.errors %}
+                            <div class="text-danger small">{{ form.descricao.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-check mt-2">
+                                {{ form.vacinado }}
+                                <label for="id_vacinado" class="form-check-label">Vacinado</label>
+                            </div>
+                            {% if form.vacinado.errors %}
+                            <div class="text-danger small">{{ form.vacinado.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-check mt-2">
+                                {{ form.castrado }}
+                                <label for="id_castrado" class="form-check-label">Castrado</label>
+                            </div>
+                            {% if form.castrado.errors %}
+                            <div class="text-danger small">{{ form.castrado.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="id_fotos" class="form-label">Fotos</label>
+                            {{ form.fotos }}
+                            <div class="form-text">Você pode selecionar mais de uma imagem.</div>
+                            {% if form.fotos.errors %}
+                            <div class="text-danger small">{{ form.fotos.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{% url 'lista_pets' %}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>

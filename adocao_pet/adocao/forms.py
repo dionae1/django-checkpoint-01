@@ -4,10 +4,16 @@ from django import forms
 class MultipleImageInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
+    def __init__(self, attrs=None):
+        default_attrs = {"class": "form-control", "multiple": True}
+        if attrs:
+            default_attrs.update(attrs)
+        super().__init__(attrs=default_attrs)
+
 
 class MultipleImageField(forms.FileField):
     def __init__(self, *args, **kwargs):
-        kwargs["widget"] = MultipleImageInput
+        kwargs["widget"] = MultipleImageInput()
         super().__init__(*args, **kwargs)
 
     def clean(self, data, initial=None):
@@ -20,18 +26,42 @@ class MultipleImageField(forms.FileField):
 
 
 class PetForm(forms.Form):
-    nome = forms.CharField(max_length=100)
-    especie = forms.CharField(max_length=100)
-    raca = forms.CharField(max_length=100)
-    idade = forms.IntegerField()
+    nome = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Nome do pet"}),
+    )
+    especie = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Ex: Cão, gato"}),
+    )
+    raca = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Raça"}),
+    )
+    idade = forms.IntegerField(
+        min_value=0,
+        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "Idade em anos"}),
+    )
     porte = forms.ChoiceField(
         choices=[
+            ("", "Selecione o porte"),
             ("pequeno", "Pequeno"),
             ("médio", "Médio"),
             ("grande", "Grande"),
-        ]
+        ],
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
-    descricao = forms.CharField(widget=forms.Textarea)
-    vacinado = forms.BooleanField(required=False)
-    castrado = forms.BooleanField(required=False)
+    descricao = forms.CharField(
+        widget=forms.Textarea(
+            attrs={"class": "form-control", "rows": 4, "placeholder": "Descreva o pet"}
+        )
+    )
+    vacinado = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+    )
+    castrado = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+    )
     fotos = MultipleImageField(required=False)
