@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import FormularioCadastro, FormularioAtualizacao
 
-@login_required
+
 def cadastrar_usuario(request):
 
     if request.method == "POST":
