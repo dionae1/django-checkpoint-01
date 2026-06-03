@@ -86,7 +86,7 @@ class Command(BaseCommand):
         )
 
         FotoPet.objects.create(pet=pet1, imagem="/pets/cao-leo.jpeg")
-        FotoPet.objects.create(pet=pet2, imagem="/pets/gato-maia.jpeg")
+        FotoPet.objects.create(pet=pet2, imagem="/pets/gato-maia.jpg")
         FotoPet.objects.create(pet=pet3, imagem="/pets/cao-luna.jpeg")
 
         PedidoAdocao.objects.create(pet=pet1, adotante=user2)
