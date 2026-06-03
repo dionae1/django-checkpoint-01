@@ -108,3 +108,10 @@ def detalhes_pet(request, pet_id):
     return render(
         request, "detalhes_pet.html", {"form": form, "pet": pet, "fotos": fotos}
     )
+
+
+@login_required
+def deletar_pet(request, pet_id):
+    pet = Pet.objects.get(id=pet_id, dono=request.user)
+    pet.delete()
+    return redirect("lista_pets")

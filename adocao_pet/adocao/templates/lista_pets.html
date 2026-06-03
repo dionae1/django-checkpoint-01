@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/cbddc4243b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -36,7 +37,8 @@
         </div>
 
         {% if pets %}
-        <p id="pet-search-empty" class="text-muted d-none mb-3 text-center">Nenhum pet encontrado para essa pesquisa.</p>
+        <p id="pet-search-empty" class="text-muted d-none mb-3 text-center">Nenhum pet encontrado para essa pesquisa.
+        </p>
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for pet in pets %}
@@ -59,7 +61,15 @@
                             <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
                         </p>
-                        <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Ver Detalhes</a>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Ver Detalhes</a>
+                            <form action="{% url 'deletar_pet' pet.id %}" method="post" class="d-inline-block"
+                                onsubmit="return confirm('Tem certeza que deseja deletar este pet?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger"><i
+                                        class="fas fa-trash"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
