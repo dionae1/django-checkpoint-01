@@ -19,7 +19,10 @@
                     <a class="nav-link" href="{% url 'home' %}" onclick="setActive(this)">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'lista_pets' %}" onclick="setActive(this)">Meus Pets</a>
+                    <a class="nav-link" href="{% url 'lista_pets' %}" onclick="setActive(this)">Pets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'atualizar_usuario' %}" onclick="setActive(this)">Conta</a>
                 </li>
                 {% endif %}
             </ul>

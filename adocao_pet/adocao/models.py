@@ -6,12 +6,19 @@ from django.db import models
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    celular = models.CharField(max_length=20, blank=True)
-    cidade = models.CharField(max_length=100, blank=True)
-    estado = models.CharField(max_length=100, blank=True)
+    cidade = models.CharField(max_length=100)
+    estado = models.CharField(max_length=100)
+    celular = models.CharField(max_length=20, unique=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = [
+        "username",
+        "first_name",
+        "last_name",
+        "celular",
+        "cidade",
+        "estado",
+    ]
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name

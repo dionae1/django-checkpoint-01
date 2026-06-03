@@ -26,4 +26,9 @@ urlpatterns = [
         views.register,
         name="register",
     ),
+    path(
+        "update/",
+        views.atualizar_usuario,
+        name="atualizar_usuario",
+    ),
 ]

@@ -44,3 +44,26 @@ class CustomUserCreationForm(UserCreationForm):
                 attrs={"class": "form-control", "autocomplete": "address-level1"}
             ),
         }
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "celular", "cidade", "estado")
+        widgets = {
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control", "autocomplete": "given-name"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"class": "form-control", "autocomplete": "family-name"}
+            ),
+            "celular": forms.TextInput(
+                attrs={"class": "form-control", "autocomplete": "tel"}
+            ),
+            "cidade": forms.TextInput(
+                attrs={"class": "form-control", "autocomplete": "address-level2"}
+            ),
+            "estado": forms.TextInput(
+                attrs={"class": "form-control", "autocomplete": "address-level1"}
+            ),
+        }
