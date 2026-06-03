@@ -54,11 +54,12 @@
                             <strong>Espécie:</strong> {{ pet.especie }}<br>
                             <strong>Raça:</strong> {{ pet.raca }}<br>
                             <strong>Idade:</strong> {{ pet.idade }} anos<br>
-                            <strong>Porte:</strong> {{ pet.porte }}<br>
+                            <strong>Porte:</strong> {{ pet.get_porte_display }}<br>
                             <strong>Descrição:</strong> {{ pet.descricao }}<br>
                             <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
                         </p>
+                        <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Ver Detalhes</a>
                     </div>
                 </div>
             </div>

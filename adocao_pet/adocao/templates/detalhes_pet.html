@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Pet</title>
+    <title>Detalhes do Pet</title>
 
 
     {% load static %}
@@ -24,8 +24,8 @@
         <div class="card shadow-sm border-0">
             <div class="card-body p-4 p-md-5">
                 <div class="mb-4">
-                    <h1 class="h3 mb-2">Cadastrar Pet</h1>
-                    <p class="text-muted mb-0">Preencha os dados abaixo para anunciar um novo pet.</p>
+                    <h1 class="h3 mb-2">Detalhes do Pet</h1>
+                    <p class="text-muted mb-0">Atualize as informações do pet abaixo.</p>
                 </div>
 
                 {% if form.non_field_errors %}
@@ -116,10 +116,24 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2 mt-4">
-                        <a href="{% url 'lista_pets' %}" class="btn btn-outline-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    </div>
+                    <div>
+                        <h5 class="mt-4">Fotos Atuais</h5>
+                        <div class="row g-3">
+                            {% for foto in fotos %}
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <img src="{{ foto.imagem.url }}" class="card-img-top" alt="Foto do Pet">
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="text-muted">Nenhuma foto disponível.</p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a href="{% url 'lista_pets' %}" class="btn btn-outline-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Atualizar</button>
+                        </div>
                 </form>
             </div>
         </div>
