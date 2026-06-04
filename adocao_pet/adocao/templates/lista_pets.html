@@ -47,9 +47,13 @@
                     <img src="{{ pet.foto_principal.imagem.url }}" class="card-img-top" alt="{{ pet.nome }}"
                         style="height: 400px; object-fit: cover;">
                     {% else %}
-                    <p>Nenhuma imagem disponível</p>
+                    <div class="d-flex align-items-center justify-content-center"
+                        style="height: 400px; background-color: #f8f9fa;">
+                        <i class="fa-solid fa-image"></i>
+                        <p class="text-muted">Nenhuma imagem disponível</p>
+                    </div>
                     {% endif %}
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">
                             <div class="d-flex align-items-center justify-content-between">
                                 {{ pet.nome }}
@@ -81,9 +85,13 @@
                     <img src="{{ pet.foto_principal.imagem.url }}" class="card-img-top" alt="{{ pet.nome }}"
                         style="height: 400px; object-fit: cover;">
                     {% else %}
-                    <p>Nenhuma imagem disponível</p>
+                    <div class="d-flex flex-column align-items-center justify-content-center border-bottom"
+                        style="height: 400px; background-color: #f8f9fa;">
+                        <i class="fa-solid fa-image"></i>
+                        <p class="text-muted">Nenhuma imagem disponível</p>
+                    </div>
                     {% endif %}
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ pet.nome }}</h5>
                         <p class="card-text">
                             <strong>Espécie:</strong> {{ pet.especie }}<br>

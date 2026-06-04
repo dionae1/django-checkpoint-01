@@ -23,7 +23,7 @@
     <h1 class="text-center my-5">Pets para Adoção</h1>
 
     {% if pets %}
-    <div class="container">
+    <div class="container p-4">
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for pet in pets %}
             <div class="col" data-pet-name="{{ pet.nome|lower }}">
@@ -32,9 +32,13 @@
                     <img src="{{ pet.foto_principal.imagem.url }}" class="card-img-top" alt="{{ pet.nome }}"
                         style="height: 400px; object-fit: cover;">
                     {% else %}
-                    <p>Nenhuma imagem disponível</p>
+                    <div class="d-flex align-items-center justify-content-center"
+                        style="height: 400px; background-color: #f8f9fa;">
+                        <i class="fa-solid fa-image"></i>
+                        <p class="text-muted">Nenhuma imagem disponível</p>
+                    </div>
                     {% endif %}
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ pet.nome }}</h5>
                         <p class="card-text">
                             <strong>Espécie:</strong> {{ pet.especie }}<br>
