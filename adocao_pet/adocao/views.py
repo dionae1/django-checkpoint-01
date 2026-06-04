@@ -179,3 +179,55 @@ def solicitar_adocao(request, pet_id):
         )
 
     return redirect("detalhes_adocao", pet_id=pet_id)
+
+
+@login_required
+def lista_solicitacoes(request):
+    user = request.user
+
+    solicitacoes_recebidas = PedidoAdocao.objects.filter(pet__dono=user).select_related(
+        "pet", "adotante"
+    )
+
+    solicitacoes_recebidas_aprovadas = solicitacoes_recebidas.filter(status="aprovado")
+    solicitacoes_recebidas_rejeitadas = solicitacoes_recebidas.filter(
+        status="rejeitado"
+    )
+    solicitacoes_recebidas_pendentes = solicitacoes_recebidas.filter(status="pendente")
+
+    solicitacoes_enviadas = PedidoAdocao.objects.filter(adotante=user).select_related(
+        "pet", "pet__dono"
+    )
+
+    solicitacoes_enviadas_pendentes = solicitacoes_enviadas.filter(status="pendente")
+    solicitacoes_enviadas_aprovadas = solicitacoes_enviadas.filter(status="aprovado")
+    solicitacoes_enviadas_rejeitadas = solicitacoes_enviadas.filter(status="rejeitado")
+
+    return render(
+        request,
+        "lista_solicitacoes.html",
+        {
+            "solicitacoes_recebidas_pendentes": solicitacoes_recebidas_pendentes,
+            "solicitacoes_recebidas_aprovadas": solicitacoes_recebidas_aprovadas,
+            "solicitacoes_recebidas_rejeitadas": solicitacoes_recebidas_rejeitadas,
+            "solicitacoes_enviadas_pendentes": solicitacoes_enviadas_pendentes,
+            "solicitacoes_enviadas_aprovadas": solicitacoes_enviadas_aprovadas,
+            "solicitacoes_enviadas_rejeitadas": solicitacoes_enviadas_rejeitadas,
+        },
+    )
+
+
+@login_required
+def aceitar_solicitacao(request, solicitacao_id):
+    solicitacao = PedidoAdocao.objects.get(id=solicitacao_id, pet__dono=request.user)
+    solicitacao.status = "aprovado"
+    solicitacao.save()
+    return redirect("lista_solicitacoes")
+
+
+@login_required
+def rejeitar_solicitacao(request, solicitacao_id):
+    solicitacao = PedidoAdocao.objects.get(id=solicitacao_id, pet__dono=request.user)
+    solicitacao.status = "rejeitado"
+    solicitacao.save()
+    return redirect("lista_solicitacoes")

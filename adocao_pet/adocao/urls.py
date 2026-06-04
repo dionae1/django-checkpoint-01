@@ -11,4 +11,15 @@ urlpatterns = [
     path("adocao", views.lista_adocao, name="lista_adocao"),
     path("adocao/<int:pet_id>/", views.detalhes_adocao, name="detalhes_adocao"),
     path("adocao/<int:pet_id>/adotar/", views.solicitar_adocao, name="adotar_pet"),
+    path("solicitacoes/", views.lista_solicitacoes, name="lista_solicitacoes"),
+    path(
+        "solicitacoes/<int:solicitacao_id>/aceitar/",
+        views.aceitar_solicitacao,
+        name="aceitar_solicitacao",
+    ),
+    path(
+        "solicitacoes/<int:solicitacao_id>/rejeitar/",
+        views.rejeitar_solicitacao,
+        name="rejeitar_solicitacao",
+    ),
 ]

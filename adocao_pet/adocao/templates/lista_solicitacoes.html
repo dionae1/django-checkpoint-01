@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitações de Adoção</title>
+
+
+    {% load static %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/cbddc4243b.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    {% include 'nav.html' %}
+
+    <div class="container mt-4 px-4" style="max-width: 800px;">
+
+        <div class="mb-4 d-flex gap-2 justify-content-center">
+            <button id="btn-recebidas" class="btn btn-dark" disabled>Recebidas</button>
+            <button id="btn-enviadas" class="btn btn-outline-dark">Enviadas</button>
+        </div>
+
+        <section id="solicitacoes_enviadas" class="d-none">
+
+            <!-- Histórico de solicitações enviadas aprovadas -->
+            {% if solicitacoes_enviadas_aprovadas %}
+            {% for solicitacao in solicitacoes_enviadas_aprovadas %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            <div class="alert alert-success mb-4" role="alert">
+                <p>Entre em contato com o adotante para mais informações.</p>
+                <p><strong>Email:</strong> {{ solicitacao.pet.dono.email }}</p>
+                <p><strong>Celular:</strong> {{ solicitacao.pet.dono.celular_formatado }}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+
+            <!-- Histórico de solicitações enviadas rejeitadas -->
+            {% if solicitacoes_enviadas_rejeitadas %}
+            {% for solicitacao in solicitacoes_enviadas_rejeitadas %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% endfor %}
+            {% endif %}
+
+
+            <!-- Histórico de solicitações enviadas pendentes -->
+            {% if solicitacoes_enviadas_pendentes %}
+            {% for solicitacao in solicitacoes_enviadas_pendentes %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% endfor %}
+            {% endif %}
+
+            <!-- Nenhuma solicitação encontrada -->
+            {% if not solicitacoes_enviadas_aprovadas and not solicitacoes_enviadas_rejeitadas and not solicitacoes_enviadas_pendentes and not solicitacoes_recebidas_pendentes %}
+            <p class="text-muted">Nenhuma solicitação encontrada.</p>
+            {% endif %}
+
+        </section>
+
+        <section id="solicitacoes_recebidas">
+
+            <!-- Solicitações Recebidas -->
+
+            {% if solicitacoes_recebidas_pendentes %}
+            {% for solicitacao in solicitacoes_recebidas_pendentes %}
+            <div class="list-group-item list-group-item-action mb-3">
+                {% include 'solicitacao.html' with solicitacao=solicitacao %}
+                <div class="mt-2">
+                    {% if solicitacao.status == 'pendente' %}
+                    <a href="{% url 'aceitar_solicitacao' solicitacao.id %}" class="btn btn-success btn-sm">Aprovar</a>
+                    <a href="{% url 'rejeitar_solicitacao' solicitacao.id %}" class="btn btn-danger btn-sm">Rejeitar</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% if solicitacoes_recebidas_aprovadas %}
+            <h3 class="mb-4">Aprovadas</h3>
+            {% for solicitacao in solicitacoes_recebidas_aprovadas %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% endfor %}
+            {% endif %}
+
+            {% if solicitacoes_recebidas_rejeitadas %}
+            <h3 class="mb-4">Rejeitadas</h3>
+            {% for solicitacao in solicitacoes_recebidas_rejeitadas %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% endfor %}
+            {% endif %}
+
+            {% if solicitacoes_recebidas_rejeitadas %}
+            {% for solicitacao in solicitacoes_recebidas_rejeitadas %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if not solicitacoes_enviadas_aprovadas and not solicitacoes_enviadas_rejeitadas and not solicitacoes_enviadas_pendentes and not solicitacoes_recebidas_pendentes %}
+    <p class="text-muted">Nenhuma solicitação encontrada.</p>
+    {% endif %}
+
+    </section>
+
+    </div>
+
+    <script src="{% static 'adocao/js/solicitacoes.js' %}"></script>
+</body>

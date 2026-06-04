@@ -22,5 +22,7 @@ def apply_adoption(sender, instance: PedidoAdocao, created, **kwargs):
 
     with transaction.atomic():
         pet.status = "adotado"
-        pet.dono = instance.adotante
+        # Manter o dono original do pet para salvar o histórico.
+        # Rastrear o dono novo pelo pedido aprovado.
+        # pet.dono = instance.adotante
         pet.save()
