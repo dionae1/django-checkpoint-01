@@ -118,22 +118,49 @@
 
                     <div>
                         <h5 class="mt-4">Fotos Atuais</h5>
-                        <div class="row g-3">
-                            {% for foto in fotos %}
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="{{ foto.imagem.url }}" class="card-img-top" alt="Foto do Pet">
-                                </div>
+                        {% if fotos %}
+                        <div id="carrossel-pet-{{ pet.id }}" class="carousel slide mb-3" data-bs-ride="carousel">
+                            {% if fotos|length > 1 %}
+                            <div class="carousel-indicators">
+                                {% for foto in fotos %}
+                                <button type="button" data-bs-target="#carrossel-pet-{{ pet.id }}"
+                                    data-bs-slide-to="{{ forloop.counter0 }}"
+                                    class="{% if forloop.first %}active{% endif %}" {% if forloop.first %}aria-current="true" {% endif %} aria-label="Foto {{ forloop.counter }}"></button>
+                                {% endfor %}
                             </div>
-                            {% empty %}
-                            <p class="text-muted">Nenhuma foto disponível.</p>
-                            {% endfor %}
+                            {% endif %}
+
+                            <div class="carousel-inner">
+                                {% for foto in fotos %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ foto.imagem.url }}" class="d-block w-100" alt="{{ pet.nome }}"
+                                        style="max-height: 500px; width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #f8f9fa;">
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            {% if fotos|length > 1 %}
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carrossel-pet-{{ pet.id }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carrossel-pet-{{ pet.id }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Próxima</span>
+                            </button>
+                            {% endif %}
                         </div>
+                        {% else %}
+                        <p class="text-muted">Nenhuma foto disponível.</p>
+                        {% endif %}
 
                         <div class="d-flex justify-content-end gap-2 mt-4">
                             <a href="{% url 'lista_pets' %}" class="btn btn-outline-secondary">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Atualizar</button>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>

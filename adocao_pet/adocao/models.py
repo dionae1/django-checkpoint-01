@@ -62,6 +62,9 @@ class Pet(models.Model):
     def __str__(self) -> str:
         return self.nome
 
+    def fotos_carrossel(self):
+        return self.fotos.all() # type: ignore
+
 
 class FotoPet(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="fotos")

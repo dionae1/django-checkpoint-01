@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Pets</title>
+    <title>Centro de Adoção</title>
 
 
     {% load static %}
@@ -14,28 +14,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/cbddc4243b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     {% include 'nav.html' %}
 
-    <div class="container mt-4">
+    <h1 class="text-center my-5">Pets para Adoção</h1>
 
-        {% if pets %}
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="{% url 'novo_pet' %}" class="btn btn-primary">Adicionar Novo Pet</a>
-            <div>
-                <input type="search" id="pet-search-input" class="form-control" placeholder="Procure por um pet..."
-                    autocomplete="off">
-            </div>
-            <p id="pet-search-empty" class="text-muted d-none mb-3 text-center">Nenhum pet encontrado para essa
-                pesquisa.
-            </p>
-        </div>
-
+    <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for pet in pets %}
             <div class="col" data-pet-name="{{ pet.nome|lower }}">
@@ -56,30 +43,18 @@
                             <strong>Descrição:</strong> {{ pet.descricao }}<br>
                             <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Ver
-                                Detalhes</a>
-                            <form action="{% url 'deletar_pet' pet.id %}" method="post" class="d-inline-block"
-                                onsubmit="return confirm('Tem certeza que deseja deletar este pet?');">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger"><i
-                                        class="fas fa-trash"></i></button>
-                            </form>
+
+                        <div>
+                            <a href="{% url 'detalhes_adocao' pet.id %}" class="btn btn-outline-primary w-100">
+                                Ver Detalhes
+                            </a>
                         </div>
+
+                        </p>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-
-        {% else %}
-        <div class="text-center my-5">
-            <p class="text-muted text-center">Você ainda não cadastrou nenhum pet para adoção.</p>
-            <a href="{% url 'novo_pet' %}">Adicionar o meu primeiro Pet</a>
-        </div>
-        {% endif %}
     </div>
-
-    <script src="{% static 'adocao/js/pets-search.js' %}"></script>
 </body>

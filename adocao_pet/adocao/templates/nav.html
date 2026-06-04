@@ -16,7 +16,7 @@
             <ul class="navbar-nav d-flex align-items-center justify-content-center gap-3 flex-grow-1 me-lg-3">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}" onclick="setActive(this)">Inicio</a>
+                    <a class="nav-link" href="{% url 'lista_adocao' %}" onclick="setActive(this)">Adoção</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'lista_pets' %}" onclick="setActive(this)">Pets</a>

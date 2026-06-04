@@ -19,14 +19,13 @@
 <body>
 
     {% include 'nav.html' %}
-
-    <section class="hero">
-        <div class="container">
-            <div class="row align-items-center min-vh-100 gy-5">
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 fw-bold">Bem vindo, {{ user.first_name }}!</h1>
-                    <p class="lead my-4">Use o menu de navegação para explorar o nosso site.</p>
-                </div>
-            </div>
-    </section>
+    <div class="container">
+        <h1 class="text-center my-5">Bem-vindo ao Adote Pet!</h1>
+        <p class="text-center mb-4">Encontre o seu novo melhor amigo e dê a ele um lar cheio de amor.</p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'lista_adocao' %}">
+                Ver Pets para Adoção
+            </a>
+        </div>
+    </div>
 </body>
