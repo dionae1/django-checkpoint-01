@@ -22,6 +22,7 @@
 
     <h1 class="text-center my-5">Pets para Adoção</h1>
 
+    {% if pets %}
     <div class="container">
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for pet in pets %}
@@ -57,4 +58,7 @@
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <p class="text-center text-muted">Nenhum pet disponível para adoção no momento.</p>
+    {% endif %}
 </body>

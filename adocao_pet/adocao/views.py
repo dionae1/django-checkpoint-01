@@ -24,7 +24,12 @@ def home(request):
 @login_required
 def lista_pets(request):
     user = request.user
-    user_pets = Pet.objects.filter(dono=user).prefetch_related("fotos")
+    user_pets = (
+        Pet.objects.filter(dono=user)
+        .prefetch_related("fotos")
+        .order_by("status", "nome")
+        .reverse()
+    )
 
     for pet in user_pets:
         pet.foto_principal = pet.fotos.first()  # type: ignore

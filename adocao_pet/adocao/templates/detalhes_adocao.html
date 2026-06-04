@@ -82,7 +82,7 @@
                 </p>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{% url 'lista_adocao' %}" class="btn btn-outline-secondary">Voltar para a Lista</a>
+                    <button class="btn btn-outline-secondary" onclick="window.history.back()">Voltar</button>
                     {% if not solicitacao_existente %}
                     <form action="{% url 'adotar_pet' pet.id %}" method="post" class="d-inline-block"
                         onsubmit="return confirm('Tem certeza que deseja solicitar a adoção deste pet?');">

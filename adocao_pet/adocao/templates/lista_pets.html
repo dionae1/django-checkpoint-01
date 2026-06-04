@@ -38,6 +38,43 @@
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for pet in pets %}
+
+            {% if pet.status == 'adotado' %}
+
+            <div class="col" data-pet-name="{{ pet.nome|lower }}">
+                <div class="card h-100 shadow-sm">
+                    {% if pet.foto_principal %}
+                    <img src="{{ pet.foto_principal.imagem.url }}" class="card-img-top" alt="{{ pet.nome }}"
+                        style="height: 400px; object-fit: cover;">
+                    {% else %}
+                    <p>Nenhuma imagem disponível</p>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <div class="d-flex align-items-center justify-content-between">
+                                {{ pet.nome }}
+                                <span class="badge bg-success">Adotado</span>
+                            </div>
+                        </h5>
+                        <p class="card-text">
+                            <strong>Espécie:</strong> {{ pet.especie }}<br>
+                            <strong>Raça:</strong> {{ pet.raca }}<br>
+                            <strong>Idade:</strong> {{ pet.idade }} anos<br>
+                            <strong>Porte:</strong> {{ pet.get_porte_display }}<br>
+                            <strong>Descrição:</strong> {{ pet.descricao }}<br>
+                            <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
+                            <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}<br>
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'detalhes_adocao' pet.id %}" class="btn btn-outline-primary">Ver
+                                Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+
             <div class="col" data-pet-name="{{ pet.nome|lower }}">
                 <div class="card h-100 shadow-sm">
                     {% if pet.foto_principal %}
@@ -70,6 +107,9 @@
                     </div>
                 </div>
             </div>
+
+            {% endif %}
+
             {% endfor %}
         </div>
 
