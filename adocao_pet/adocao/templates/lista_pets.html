@@ -21,11 +21,11 @@
 
     {% include 'nav.html' %}
 
-    <div class="container mt-4">
+    <div class="container mt-4 p-4">
 
         {% if pets %}
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 gap-3 flex-column flex-md-row">
             <a href="{% url 'novo_pet' %}" class="btn btn-primary">Adicionar Novo Pet</a>
             <div>
                 <input type="search" id="pet-search-input" class="form-control" placeholder="Procure por um pet..."
@@ -70,8 +70,7 @@
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}<br>
                         </p>
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'detalhes_adocao' pet.id %}" class="btn btn-outline-primary">Ver
-                                Detalhes</a>
+                            <a href="{% url 'detalhes_adocao' pet.id %}" class="btn btn-outline-primary">Detalhes</a>
                         </div>
                     </div>
                 </div>
@@ -103,8 +102,7 @@
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
                         </p>
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Ver
-                                Detalhes</a>
+                            <a href="{% url 'detalhes_pet' pet.id %}" class="btn btn-outline-primary">Detalhes</a>
                             <form action="{% url 'deletar_pet' pet.id %}" method="post" class="d-inline-block"
                                 onsubmit="return confirm('Tem certeza que deseja deletar este pet?');">
                                 {% csrf_token %}
