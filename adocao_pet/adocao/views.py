@@ -129,11 +129,45 @@ def deletar_pet(request, pet_id):
 @login_required
 def lista_adocao(request):
     user = request.user
-    pets_disponiveis = (
+    pets_base = (
         Pet.objects.filter(status="disponível")
         .exclude(dono=user)
         .prefetch_related("fotos")
     )
+
+    especie = request.GET.get("especie", "").strip()
+    raca = request.GET.get("raca", "").strip()
+    porte = request.GET.get("porte", "").strip()
+    vacinado = request.GET.get("vacinado", "").strip().lower()
+    castrado = request.GET.get("castrado", "").strip().lower()
+
+    pets_disponiveis = pets_base
+
+    if especie:
+        pets_disponiveis = pets_disponiveis.filter(especie__iexact=especie)
+
+    if raca:
+        pets_disponiveis = pets_disponiveis.filter(raca__iexact=raca)
+
+    if porte:
+        pets_disponiveis = pets_disponiveis.filter(porte=porte)
+
+    if vacinado in ["sim", "nao"]:
+        pets_disponiveis = pets_disponiveis.filter(vacinado=(vacinado == "sim"))
+
+    if castrado in ["sim", "nao"]:
+        pets_disponiveis = pets_disponiveis.filter(castrado=(castrado == "sim"))
+
+    especies_disponiveis = pets_base.values_list("especie", flat=True).order_by(
+        "especie"
+    ).distinct()
+
+    racas_base = pets_base
+    if especie:
+        racas_base = racas_base.filter(especie__iexact=especie)
+    racas_disponiveis = racas_base.values_list("raca", flat=True).order_by(
+        "raca"
+    ).distinct()
 
     for pet in pets_disponiveis:
         pet.foto_principal = pet.fotos.first()  # type: ignore
@@ -143,6 +177,16 @@ def lista_adocao(request):
     context = {
         "user": user,
         "pets": pets_disponiveis,
+        "especies_disponiveis": especies_disponiveis,
+        "racas_disponiveis": racas_disponiveis,
+        "portes_disponiveis": Pet.ESCOLHAS_PORTE,
+        "filtros": {
+            "especie": especie,
+            "raca": raca,
+            "porte": porte,
+            "vacinado": vacinado,
+            "castrado": castrado,
+        },
     }
 
     return HttpResponse(template.render(context, request))

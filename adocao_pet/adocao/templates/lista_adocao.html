@@ -22,6 +22,63 @@
 
     <h1 class="text-center my-5">Pets para Adoção</h1>
 
+    <div class="container p-4">
+        <form method="get" class="row g-3 mb-4 p-3 border rounded bg-light">
+            <div class="col-12 col-md-4">
+                <label for="especie" class="form-label">Espécie</label>
+                <select id="especie" name="especie" class="form-select">
+                    <option value="">Todas</option>
+                    {% for especie in especies_disponiveis %}
+                    <option value="{{ especie }}" {% if filtros.especie == especie %}selected{% endif %}>{{ especie }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="raca" class="form-label">Raça</label>
+                <select id="raca" name="raca" class="form-select">
+                    <option value="">Todas</option>
+                    {% for raca in racas_disponiveis %}
+                    <option value="{{ raca }}" {% if filtros.raca == raca %}selected{% endif %}>{{ raca }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="porte" class="form-label">Porte</label>
+                <select id="porte" name="porte" class="form-select">
+                    <option value="">Todos</option>
+                    {% for valor, label in portes_disponiveis %}
+                    <option value="{{ valor }}" {% if filtros.porte == valor %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="vacinado" class="form-label">Vacinado</label>
+                <select id="vacinado" name="vacinado" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="sim" {% if filtros.vacinado == 'sim' %}selected{% endif %}>Sim</option>
+                    <option value="nao" {% if filtros.vacinado == 'nao' %}selected{% endif %}>Não</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="castrado" class="form-label">Castrado</label>
+                <select id="castrado" name="castrado" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="sim" {% if filtros.castrado == 'sim' %}selected{% endif %}>Sim</option>
+                    <option value="nao" {% if filtros.castrado == 'nao' %}selected{% endif %}>Não</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100">Aplicar filtros</button>
+                <a href="{% url 'lista_adocao' %}" class="btn btn-outline-secondary w-100">Limpar</a>
+            </div>
+        </form>
+    </div>
+
     {% if pets %}
     <div class="container p-4">
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -40,7 +97,7 @@
                     {% endif %}
                     <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ pet.nome }}</h5>
-                        <p class="card-text">
+                        <p class="card-text mb-3">
                             <strong>Espécie:</strong> {{ pet.especie }}<br>
                             <strong>Raça:</strong> {{ pet.raca }}<br>
                             <strong>Idade:</strong> {{ pet.idade }} anos<br>
@@ -48,14 +105,13 @@
                             <strong>Descrição:</strong> {{ pet.descricao }}<br>
                             <strong>Vacinado:</strong> {{ pet.vacinado|yesno:"Sim,Não" }}<br>
                             <strong>Castrado:</strong> {{ pet.castrado|yesno:"Sim,Não" }}
+                        </p>
 
                         <div>
                             <a href="{% url 'detalhes_adocao' pet.id %}" class="btn btn-outline-primary w-100">
                                 Ver Detalhes
                             </a>
                         </div>
-
-                        </p>
                     </div>
                 </div>
             </div>
@@ -63,6 +119,6 @@
         </div>
     </div>
     {% else %}
-    <p class="text-center text-muted">Nenhum pet disponível para adoção no momento.</p>
+    <p class="text-center text-muted">Nenhum pet encontrado com os filtros selecionados.</p>
     {% endif %}
 </body>
