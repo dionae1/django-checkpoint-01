@@ -72,7 +72,7 @@
             {% if solicitacoes_recebidas_pendentes %}
             {% for solicitacao in solicitacoes_recebidas_pendentes %}
             <div class="list-group-item list-group-item-action mb-3">
-                {% include 'solicitacao.html' with solicitacao=solicitacao %}
+                {% include 'solicitacao.html' with solicitacao=solicitacao exibir_contato=True %}
                 <div class="mt-2">
                     {% if solicitacao.status == 'pendente' %}
                     <a href="{% url 'aceitar_solicitacao' solicitacao.id %}" class="btn btn-success btn-sm">Aprovar</a>
@@ -86,14 +86,14 @@
             {% if solicitacoes_recebidas_aprovadas %}
             <h3 class="mb-4">Aprovadas</h3>
             {% for solicitacao in solicitacoes_recebidas_aprovadas %}
-            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao exibir_contato=True %}
             {% endfor %}
             {% endif %}
 
             {% if solicitacoes_recebidas_rejeitadas %}
             <h3 class="mb-4">Rejeitadas</h3>
             {% for solicitacao in solicitacoes_recebidas_rejeitadas %}
-            {% include 'solicitacao.html' with solicitacao=solicitacao %}
+            {% include 'solicitacao.html' with solicitacao=solicitacao exibir_contato=True %}
             {% endfor %}
             {% endif %}
 

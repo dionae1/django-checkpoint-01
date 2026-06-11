@@ -7,7 +7,19 @@
     </div>
     <small>{{ solicitacao.data_pedido|date:"d/m/Y H:i" }}</small>
 </div>
+
 <p class="mb-1">
     <strong>Status:</strong>
     {{ solicitacao.get_status_display }}
 </p>
+
+{% if exibir_contato %}
+
+<div class="mt-2 mb-3 p-3 border rounded bg-light">
+    <strong>Informações do Solicitante:</strong>
+    <p class="mb-1"><strong>Nome:</strong> {{ solicitacao.adotante.first_name }} {{ solicitacao.adotante.last_name }}</p>
+    <p class="mb-1"><strong>Email:</strong> {{ solicitacao.adotante.email }}</p>
+    <p class="mb-1"><strong>Celular:</strong> {{ solicitacao.adotante.celular_formatado }}</p>
+</div>
+
+{% endif %}
